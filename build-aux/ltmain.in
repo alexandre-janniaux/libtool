@@ -5530,6 +5530,12 @@ func_mode_link ()
 	continue
 	;;
 
+      # A static library
+      *.a)
+	func_append deplibs " $arg"
+	continue
+	;;
+
       # Some other compiler argument.
       *)
 	# Unknown arguments in both finalize_command and compile_command need
