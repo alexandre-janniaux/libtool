@@ -8882,6 +8882,7 @@ EOF
 	relink_command=
       fi
 
+	#old_deplibs=
       # Only create the output if not a dry run.
       $opt_dry_run || {
 	for installed in no yes; do
@@ -8892,6 +8893,7 @@ EOF
 	    output=$output_objdir/${outputname}i
 	    # Replace all uninstalled libtool libraries with the installed ones
 	    newdependency_libs=
+	  	func_verbose "PARSING ALL LIBS FROM dependency_libs=$dependency_libs"
 	    for deplib in $dependency_libs; do
 	      case $deplib in
 	      *.la)
@@ -8913,6 +8915,9 @@ EOF
 		func_replace_sysroot "$func_stripname_result"
 		func_append newdependency_libs " -R$func_replace_sysroot_result"
 		;;
+	    #  *.a)
+		#func_append old_deplibs " $deplib"
+		#echo " ---- ADDING DEPLIB $deplib" ;;
 	      *) func_append newdependency_libs " $deplib" ;;
 	      esac
 	    done
@@ -8975,9 +8980,7 @@ EOF
 	  func_verbose " - also: newdlprefiles='$newdlprefiles'"
 	  func_verbose " - also: dependency_libs='$dependency_libs'"
 	  func_verbose " - also: newdependency_libs='$newdependency_libs'"
-	  func_verbose " - also: deplib='$deplib'"
-	  func_append dependency_libs $old_deplibs
-	  func_append Dependencies $deplib
+	  func_append dependency_libs " $old_deplibs"
 	  $RM $output
 	  # place dlname in correct position for cygwin
 	  # In fact, it would be nice if we could use this code for all target
