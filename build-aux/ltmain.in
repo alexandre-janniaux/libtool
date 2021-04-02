@@ -8972,7 +8972,12 @@ EOF
 	    dlprefiles=$newdlprefiles
 	  fi
 	  func_verbose "Adding old_deplibs='$old_deplibs' into dependency_libs"
+	  func_verbose " - also: newdlprefiles='$newdlprefiles'"
+	  func_verbose " - also: dependency_libs='$dependency_libs'"
+	  func_verbose " - also: newdependency_libs='$newdependency_libs'"
+	  func_verbose " - also: deplib='$deplib'"
 	  func_append dependency_libs $old_deplibs
+	  func_append Dependencies $deplib
 	  $RM $output
 	  # place dlname in correct position for cygwin
 	  # In fact, it would be nice if we could use this code for all target
