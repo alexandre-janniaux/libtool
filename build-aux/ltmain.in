@@ -5536,7 +5536,6 @@ func_mode_link ()
       *.$libext)
 	# An archive.
 	func_append deplibs " $arg"
-	func_append old_deplibs " $arg"
 	continue
 	;;
 
@@ -5895,6 +5894,8 @@ func_mode_link ()
 	  if test conv = "$pass"; then
 	    deplibs="$deplib $deplibs"
 	    continue
+	  else
+	    func_append old_deplibs " $deplib"
 	  fi
 	  case $linkmode in
 	  lib)
@@ -6845,7 +6846,6 @@ func_mode_link ()
       # Now set the variables for building old libraries.
       build_libtool_libs=no
       oldlibs=$output
-      func_append objs "$old_deplibs"
       ;;
 
     lib)
@@ -8715,7 +8715,11 @@ EOF
 	  build_libtool_libs=no
           ;;
 	*)
-	  oldobjs="$old_deplibs $non_pic_objects"
+	  oldobjs="$non_pic_objects"
+	  # This is not correct to add old_deplibs creating an archive
+	  # so append them only when creating an executable or a shared
+	  # library.
+	  test yes != "$build_old_libs" && oldobjs="$oldobjs $old_deplibs"
 	  $preload && test -f "$symfileobj" \
 	    && func_append oldobjs " $symfileobj"
 	  addlibs=$old_convenience
@@ -8976,6 +8980,7 @@ EOF
 	    done
 	    dlprefiles=$newdlprefiles
 	  fi
+	  func_append dependency_libs " $old_deplibs"
 	  $RM $output
 	  # place dlname in correct position for cygwin
 	  # In fact, it would be nice if we could use this code for all target
