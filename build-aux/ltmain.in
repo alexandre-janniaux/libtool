@@ -5173,6 +5173,14 @@ func_mode_link ()
 	prev=xcompiler
 	continue
 	;;
+      -fembed-bitcode)
+	func_append compiler_flags " -fembed-bitcode"
+	func_append compile_command " -fembed-bitcode"
+	func_append finalize_command " -fembed-bitcode"
+	func_append linker_flags " -fembed-bitcode"
+	func_echo "TAKING -fembed-bitcode into account"
+        continue
+        ;;
 
       -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe \
       |-threads|-fopenmp|-openmp|-mp|-xopenmp|-omp|-qsmp=*)
